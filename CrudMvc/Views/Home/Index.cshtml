@@ -1,8 +1,71 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#170d11">
+    <title>Bingo Hermandad de la santisima Virgen</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+    <script src="~/js/site.js" asp-append-version="true" defer></script>
+</head>
+<body>
+    <main class="game">
+        <header class="masthead">
+            <h1>BINGO <span>Patricio</span></h1>
+            <button id="reset" class="button button-secondary" type="button" disabled>Nueva partida</button>
+        </header>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+        <div class="game-layout">
+            <section class="panel stage" aria-labelledby="stage-title">
+                <h2 id="stage-title">Bombo</h2>
+                <div class="machine" aria-hidden="true">
+                    <div class="drum" id="drum">
+                        <div class="cage"></div>
+                        <div class="orbit"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                        <div class="hub"></div>
+                    </div>
+                    <div class="stand"></div>
+                </div>
+                <div class="result">
+                    <span>Última bola</span>
+                    <strong id="current">—</strong>
+                </div>
+                <div class="controls">
+                    <button id="draw" class="button button-primary" type="button">Sacar bola</button>
+                    <button id="auto" class="button button-secondary" type="button" aria-pressed="false">Automático</button>
+                </div>
+                <p id="status" class="status" role="status">Listo para empezar</p>
+            </section>
+
+            <section class="panel board" aria-labelledby="board-title">
+                <header class="board-header">
+                    <h2 id="board-title">Tablero</h2>
+                    <p><strong id="count">0</strong> de 75 extraídas</p>
+                </header>
+                <div class="progress" aria-hidden="true"><div id="progress"></div></div>
+                <div id="numbers" class="numbers" role="group" aria-label="Números del 1 al 75">
+                    @for (int column = 0; column < 5; column++)
+                    {
+                        var first = column * 15 + 1;
+                        var letter = "BINGO"[column];
+                        <section class="number-column">
+                            <h3 id="letter-@letter">@letter</h3>
+                            <ol aria-labelledby="letter-@letter" start="@first">
+                                @for (int number = first; number < first + 15; number++)
+                                {
+                                    <li>@number</li>
+                                }
+                            </ol>
+                        </section>
+                    }
+                </div>
+                <div class="history">
+                    <h3>Historial de salida</h3>
+                    <p id="empty">Aún no han salido bolas.</p>
+                    <ol id="history" aria-label="Bolas en orden de salida"></ol>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
